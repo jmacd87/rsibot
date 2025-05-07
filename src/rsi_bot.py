@@ -18,6 +18,9 @@ from config import (
 )
 import pandas as pd
 import numpy as np
+import threading
+from fastapi import FastAPI
+import uvicorn
 
 class RSIBot:
     def __init__(self):
@@ -191,21 +194,25 @@ This indicates potential buying pressure and a possible price reversal.
             self.send_email_alert(message)
             self.last_alert = message
 
-def main():
+def run_bot():
     bot = RSIBot()
     print(f"Starting RSI Bot - Monitoring {SYMBOL} on {TIMEFRAME} timeframe")
     print(f"RSI Thresholds - Overbought: {RSI_OVERBOUGHT}, Oversold: {RSI_OVERSOLD}")
-    
-    # Schedule the RSI check every CHECK_INTERVAL minutes
     schedule.every(CHECK_INTERVAL).minutes.do(bot.check_rsi)
-    
-    # Run initial check
     bot.check_rsi()
-    
-    # Keep the script running
     while True:
         schedule.run_pending()
         time.sleep(1)
 
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"status": "RSI bot is running"}
+
 if __name__ == "__main__":
-    main() 
+    # Start the bot in a background thread
+    bot_thread = threading.Thread(target=run_bot, daemon=True)
+    bot_thread.start()
+    # Start the FastAPI server
+    uvicorn.run(app, host="0.0.0.0", port=10000) 
