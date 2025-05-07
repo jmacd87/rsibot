@@ -3,3 +3,5 @@ schedule==1.2.1
 pandas
 numpy
 python-dotenv 
+fastapi
+uvicorn
