@@ -53,7 +53,7 @@ python rsi_bot.py
 ```
 
 The bot will:
-1. Start monitoring Bitcoin RSI every 5 minutes (or your configured interval)
+1. Start monitoring Bitcoin RSI every 1 minute (or your configured interval)
 2. Send email alerts when RSI reaches overbought (≥68) or oversold (≤32) conditions
 3. Prevent duplicate alerts for the same condition until RSI crosses back above/below the threshold
 

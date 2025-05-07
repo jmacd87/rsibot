@@ -210,9 +210,6 @@ app = FastAPI()
 def read_root():
     return {"status": "RSI bot is running"}
 
-if __name__ == "__main__":
-    # Start the bot in a background thread
-    bot_thread = threading.Thread(target=run_bot, daemon=True)
-    bot_thread.start()
-    # Start the FastAPI server
-    uvicorn.run(app, host="0.0.0.0", port=10000) 
+# Start the bot in a non-daemon background thread at module level
+bot_thread = threading.Thread(target=run_bot)
+bot_thread.start() 

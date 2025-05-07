@@ -2,6 +2,6 @@ requests==2.31.0
 schedule==1.2.1
 pandas
 numpy
-python-dotenv 
+python-dotenv
 fastapi
 uvicorn
